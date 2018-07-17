@@ -1,2 +1,2 @@
 # myminecraft
-Minecraft clone written in C++ using OpenGL
+A Minecraft clone written in C++ using OpenGL 3.3.
