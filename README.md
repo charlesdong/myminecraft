@@ -2,7 +2,7 @@
 MyMinecraft is a Minecraft clone written in C++ using OpenGL 3.3.
 
 ## Download
-View (release)[https://github.com/minetest/minetest/releases] for downloading, both binaries and source code.
+View [release](https://github.com/minetest/minetest/releases) for downloading, both binaries and source code.
 
 ## Controls
 
