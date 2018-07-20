@@ -7,5 +7,7 @@ View [release](https://github.com/minetest/minetest/releases) for downloading, b
 ## Controls
 
 WASD to move forward, left, backward and right.
+
 Up/down button to move up and down.
+
 ESC to quit.
