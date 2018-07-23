@@ -3,8 +3,6 @@
 
 #include <glm/glm.hpp>
 
-enum Direction { LEFT, RIGHT, FRONT, BACK, UP, DOWN };
-
 class Camera
 {
 private:
@@ -13,15 +11,14 @@ private:
 	glm::dvec3 up;
 	double pitch;
 	double yaw;
-	double timeDelta;
 
 	static const double Velocity;
+
+	void adjustFront();
 public:
 	Camera();
 	void update();
 	void render() const;
-	void move(Direction d);
-	void newFrame();
 
 	const glm::dvec3 & getEyePos() const
 	{

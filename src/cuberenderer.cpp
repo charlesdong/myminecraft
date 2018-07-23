@@ -1,8 +1,10 @@
 #include "cuberenderer.h"
 
 #include <GL/glew.h>
-
 #include <glm/gtc/matrix_transform.hpp>
+
+#include "blockmanager.h"
+#include "texturemanager.h"
 
 CubeRenderer::CubeRenderer()
 {
@@ -82,7 +84,7 @@ void CubeRenderer::init()
 	glBindVertexArray(0);
 }
 
-void CubeRenderer::render(long x, long y, long z, const Camera & cam, int blockId) const
+void CubeRenderer::beginRender(long x, long y, long z, const Camera & cam, int bId)
 {
 	// calculate the model-view-projection matrix
 	glm::mat4 model;
@@ -95,30 +97,28 @@ void CubeRenderer::render(long x, long y, long z, const Camera & cam, int blockI
 	// active program and texture
 	prog.use();
 	prog.setMat4f("mat", mat);
-	//textures[1].bind();		// TODO: fixed texture (for testing)
 
-	// render the cube
+	// TODO: pass by reference
+	blockId = bId;
+	bd = blockMgr.getBlockData(blockId);
+
 	glBindVertexArray(vao);
-	for (int i = 0; i < 36; i += 6)
+}
+
+void CubeRenderer::render(int face) const
+{
+	prog.setVec3f("color_aux", glm::vec3(1.0f, 1.0f, 1.0f));
+	if (face == TOP)
 	{
-		prog.setVec3f("color_aux", glm::vec3(1.0f, 1.0f, 1.0f));
-		if (blockId == 1)
-			textures[2].bind();
-		else if (blockId == 2)
-		{
-			if (i == 30)
-			{
-				textures[1].bind();
-				prog.setVec3f("color_aux", glm::vec3(0.71f, 1.18f, 0.34f));
-			}
-			else if (i == 24)
-				textures[2].bind();
-			else
-				textures[0].bind();
-		}
-		glDrawArrays(GL_TRIANGLES, i, 6);
+		if (blockId == 2)	// TODO: MN
+			prog.setVec3f("color_aux", glm::vec3(0.71f, 1.18f, 0.34f));
+		TextureManager::get(bd.texTop).bind();
 	}
-	glBindVertexArray(0);
+	else if (face == BOTTOM)
+		TextureManager::get(bd.texBottom).bind();
+	else
+		TextureManager::get(bd.texSide).bind();
+	glDrawArrays(GL_TRIANGLES, face * 6, 6);
 }
 
 void CubeRenderer::clear()
@@ -129,15 +129,10 @@ void CubeRenderer::clear()
 
 void CubeRenderer::loadTextures()
 {
-	loadTexture("textures/grass_side.png");
-	loadTexture("textures/grass_top.png");
-	loadTexture("textures/dirt.png");
-}
-
-int CubeRenderer::loadTexture(const char * path)
-{
-	Texture t;
-	t.load(path);
-	textures.push_back(t);
-	return textures.size() - 1;
+	// register dirt block
+	blockMgr.load("dirt.png");
+	// register grass block
+	blockMgr.load("grass_side.png", "grass_top.png", "dirt.png");
+	// register bedrock block
+	blockMgr.load("bedrock.png");
 }

@@ -1,7 +1,11 @@
 #include "game.h"
 #include <iostream>
+#include <string>
+#include <sstream>
 using std::cout;
 using std::endl;
+
+Game * Game::game = nullptr;
 
 Game::Game()
 {
@@ -9,6 +13,7 @@ Game::Game()
 
 void Game::run()
 {
+	game = this;
 	init();
 	while (!glfwWindowShouldClose(window))
 		loop();
@@ -25,10 +30,12 @@ void Game::init()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// TODO: magic number "800" and "600"
-	window = glfwCreateWindow(800, 600, "MyMinecraft 0.1", nullptr, nullptr);
+	window = glfwCreateWindow(800, 600, "MyMinecraft 0.2", nullptr, nullptr);
 	if (window == nullptr)
 		cout << "Failed to create window using GLFW!\n";
 	glfwMakeContextCurrent(window);
+
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
@@ -38,6 +45,8 @@ void Game::init()
 	glClearColor(0.51f, 0.68f, 1.0f, 1.0f);		// sky color values (from a pixel from a screenshot)
 
 	world.init();
+
+	fps = 0;
 }
 
 void Game::loop()
@@ -56,27 +65,34 @@ void Game::clear()
 
 void Game::update()
 {
+	static int timeInt = int(glfwGetTime());
+	double timeCur = glfwGetTime();
+	if (timeCur - timeInt < 1.0)
+		fps++;
+	else
+	{
+		std::ostringstream oss;
+		oss << "MyMinecraft 0.2 [FPS: " << fps << "]";
+		glfwSetWindowTitle(window, oss.str().c_str());
+		fps = 0;
+		timeInt = int(timeCur);
+	}
+
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 
-	camera.newFrame();
-
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera.move(LEFT);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera.move(RIGHT);
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.move(FRONT);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.move(BACK);
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		camera.move(UP);
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		camera.move(DOWN);
+	camera.update();
 }
 
 void Game::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	world.render(camera);
+}
+
+glm::dvec2 Game::getCursorPos() const
+{
+	glm::dvec2 cpos;
+	glfwGetCursorPos(window, &cpos.x, &cpos.y);
+	return cpos;
 }

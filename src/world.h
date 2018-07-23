@@ -10,12 +10,12 @@ private:
 	static const int Y = 2;
 	static const int Z = 10;
 
-	int blocks[X][Y][Z];		// TODO: magic numbers
+	int blocks[X][Y][Z];
 	CubeRenderer renderer;
 public:
 	World();
 	void init();
-	void render(const Camera & cam) const;
+	void render(const Camera & cam);
 	void clear();
 };
 

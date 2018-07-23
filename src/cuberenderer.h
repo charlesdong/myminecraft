@@ -6,22 +6,27 @@
 #include "camera.h"
 #include "program.h"
 #include "texture.h"
+#include "blockmanager.h"
+
+enum Face { BACK, FRONT, LEFT, RIGHT, BOTTOM, TOP };
 
 class CubeRenderer
 {
 private:
 	unsigned int vao;
 	unsigned int vbo;
-	int tex;
 	Program prog;
-	std::vector<Texture> textures;
+	BlockManager blockMgr;
+	int blockId;
+
+	BlockData bd;
 
 	void loadTextures();
-	int loadTexture(const char * path);
 public:
 	CubeRenderer();
 	void init();
-	void render(long x, long y, long z, const Camera & cam, int blockId) const;
+	void beginRender(long x, long y, long z, const Camera & cam, int bId);
+	void render(int face) const;
 	void clear();
 };
 
