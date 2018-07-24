@@ -13,7 +13,7 @@ CubeRenderer::CubeRenderer()
 void CubeRenderer::init()
 {
 	prog.load("shaders/shader.vert", "shaders/shader.frag");
-	loadTextures();
+	//loadTextures();
 
 	const float vertexes[] =
 	{
@@ -84,7 +84,7 @@ void CubeRenderer::init()
 	glBindVertexArray(0);
 }
 
-void CubeRenderer::beginRender(long x, long y, long z, const Camera & cam, int bId)
+void CubeRenderer::beginRender(long x, long y, long z, const Camera & cam)
 {
 	// calculate the model-view-projection matrix
 	glm::mat4 model;
@@ -98,26 +98,11 @@ void CubeRenderer::beginRender(long x, long y, long z, const Camera & cam, int b
 	prog.use();
 	prog.setMat4f("mat", mat);
 
-	// TODO: pass by reference
-	blockId = bId;
-	bd = blockMgr.getBlockData(blockId);
-
 	glBindVertexArray(vao);
 }
 
 void CubeRenderer::render(int face) const
 {
-	prog.setVec3f("color_aux", glm::vec3(1.0f, 1.0f, 1.0f));
-	if (face == TOP)
-	{
-		if (blockId == 2)	// TODO: MN
-			prog.setVec3f("color_aux", glm::vec3(0.71f, 1.18f, 0.34f));
-		TextureManager::get(bd.texTop).bind();
-	}
-	else if (face == BOTTOM)
-		TextureManager::get(bd.texBottom).bind();
-	else
-		TextureManager::get(bd.texSide).bind();
 	glDrawArrays(GL_TRIANGLES, face * 6, 6);
 }
 
@@ -125,14 +110,4 @@ void CubeRenderer::clear()
 {
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
-}
-
-void CubeRenderer::loadTextures()
-{
-	// register dirt block
-	blockMgr.load("dirt.png");
-	// register grass block
-	blockMgr.load("grass_side.png", "grass_top.png", "dirt.png");
-	// register bedrock block
-	blockMgr.load("bedrock.png");
 }

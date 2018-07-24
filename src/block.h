@@ -4,7 +4,8 @@
 class Block
 {
 private:
-	;
+	// currently only a place holder
+	virtual void temp() { }
 public:
 	;
 };
@@ -18,6 +19,14 @@ public:
 };
 
 class BlockGrass : public Block
+{
+private:
+	;
+public:
+	;
+};
+
+class BlockStone : public Block
 {
 private:
 	;

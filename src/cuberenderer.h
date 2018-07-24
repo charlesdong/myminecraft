@@ -16,16 +16,16 @@ private:
 	unsigned int vao;
 	unsigned int vbo;
 	Program prog;
-	BlockManager blockMgr;
-	int blockId;
-
-	BlockData bd;
-
-	void loadTextures();
 public:
 	CubeRenderer();
 	void init();
-	void beginRender(long x, long y, long z, const Camera & cam, int bId);
+	void beginRender(long x, long y, long z, const Camera & cam);
+
+	void setAuxColor(const glm::vec3 & color)
+	{
+		prog.setVec3f("color_aux", color);
+	}
+
 	void render(int face) const;
 	void clear();
 };

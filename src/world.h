@@ -1,17 +1,18 @@
 #ifndef WORLD_H_
 #define WORLD_H_
 
-#include "cuberenderer.h"
+#include "renderblock.h"
+#include "block.h"
 
 class World
 {
 private:
 	static const int X = 10;
-	static const int Y = 2;
+	static const int Y = 5;
 	static const int Z = 10;
 
-	int blocks[X][Y][Z];
-	CubeRenderer renderer;
+	Block * blocks[X][Y][Z];
+	RenderBlock renderer;
 public:
 	World();
 	void init();

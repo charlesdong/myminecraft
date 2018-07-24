@@ -5,21 +5,28 @@
 BlockManager::BlockManager()
 {
 	// register the air block to occupy the id 0
-	BlockData airBlock{ 0, 0, 0 };
+	BlockData airBlock{ "", "", "" };
 	blockData.push_back(airBlock);
 }
 
-int BlockManager::load(const char * fileTexSide, const char * fileTexTop, const char * fileTexBottom)
+int BlockManager::load(const char * texSide, const char * texTop, const char * texBottom)
 {
 	BlockData bd;
-	bd.texSide = TextureManager::load(fileTexSide);
+	bd.texSide = texSide;
+	TextureManager::load(texSide);
 	bd.texTop = bd.texBottom = bd.texSide;
 	// if fileTexTop is nullptr, the top texture will be the same as the side texture
-	if (fileTexTop)
-		bd.texTop = TextureManager::load(fileTexTop);
+	if (texTop)
+	{
+		bd.texTop = texTop;
+		TextureManager::load(texTop);
+	}
 	// if fileTexBottom is nullptr, the top texture will be the same as the top texture
-	if (fileTexBottom)
-		bd.texBottom = TextureManager::load(fileTexBottom);
+	if (texBottom)
+	{
+		bd.texBottom = texBottom;
+		TextureManager::load(texBottom);
+	}
 	else
 		bd.texBottom = bd.texTop;
 	blockData.push_back(bd);
