@@ -7,9 +7,9 @@
 
 struct BlockData
 {
-	std::string texTop;
-	std::string texBottom;
-	std::string texSide;
+	int texTop;
+	int texBottom;
+	int texSide;
 };
 
 class BlockManager

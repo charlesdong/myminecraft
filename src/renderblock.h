@@ -8,7 +8,7 @@
 class RenderBlock
 {
 private:
-	CubeRenderer renderer;
+	CubeRenderer * renderer;
 	BlockManager blockMgr;
 	short idCurrent;
 
@@ -22,7 +22,7 @@ private:
 public:
 	RenderBlock();
 
-	void init();
+	void init(CubeRenderer * pRenderer);
 
 	void beginRender(long x, long y, long z, const Camera & cam, const Block * b);
 	void render(int face);

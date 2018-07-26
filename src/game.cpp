@@ -42,9 +42,15 @@ void Game::init()
 		cout << "Failed to init GLEW!\n";
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	glClearColor(0.51f, 0.68f, 1.0f, 1.0f);		// sky color values (from a pixel from a screenshot)
 
-	world.init();
+	cubeRenderer.init();
+	world.init(&cubeRenderer);
+	selFrame.init(&camera, &cubeRenderer, &bidRenderer, &world);
+	bidRenderer.init();
 
 	fps = 0;
 }
@@ -61,6 +67,7 @@ void Game::loop()
 void Game::clear()
 {
 	world.clear();
+	bidRenderer.clear();
 }
 
 void Game::update()
@@ -82,12 +89,14 @@ void Game::update()
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 
 	camera.update();
+	selFrame.update();
 }
 
 void Game::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	world.render(camera);
+	selFrame.render();
 }
 
 glm::dvec2 Game::getCursorPos() const

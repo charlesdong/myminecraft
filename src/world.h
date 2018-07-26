@@ -15,9 +15,12 @@ private:
 	RenderBlock renderer;
 public:
 	World();
-	void init();
+	void init(CubeRenderer * pRenderer);
 	void render(const Camera & cam);
 	void clear();
+
+	bool hasBlock(long x, long y, long z) const;
+	void destroyBlock(long x, long y, long z);
 };
 
 #endif

@@ -13,57 +13,60 @@ CubeRenderer::CubeRenderer()
 void CubeRenderer::init()
 {
 	prog.load("shaders/shader.vert", "shaders/shader.frag");
-	//loadTextures();
+	initCubeRendering();
+}
 
+void CubeRenderer::initCubeRendering()
+{
 	const float vertexes[] =
 	{
 		// back face
-		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,		1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,		1.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,		1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,	0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,	0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,		1.0f, 1.0f,
+		1.0f,  0.0f, 0.0f,	1.0f, 0.0f,
+		1.0f,  1.0f, 0.0f,		1.0f, 1.0f,
+		0.0f,  0.0f, 0.0f,	0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,		0.0f, 1.0f,
 
 		// front face
-		-0.5f, -0.5f,  0.5f,	0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,		1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,		1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,		1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,	0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,	0.0f, 0.0f,
+		0.0f, 0.0f,  1.0f,	0.0f, 0.0f,
+		1.0f, 0.0f,  1.0f,		1.0f, 0.0f,
+		1.0f,  1.0f,  1.0f,		1.0f, 1.0f,
+		1.0f,  1.0f,  1.0f,		1.0f, 1.0f,
+		0.0f,  1.0f,  1.0f,	0.0f, 1.0f,
+		0.0f, 0.0f,  1.0f,	0.0f, 0.0f,
 
 		// left face
-		-0.5f,  0.5f,  0.5f,	1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,	0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,	1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,	1.0f, 1.0f,
+		0.0f,  1.0f,  1.0f,	1.0f, 1.0f,
+		0.0f,  1.0f, 0.0f,	0.0f, 1.0f,
+		0.0f, 0.0f, 0.0f,	0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,	0.0f, 0.0f,
+		0.0f, 0.0f,  1.0f,	1.0f, 0.0f,
+		0.0f,  1.0f,  1.0f,	1.0f, 1.0f,
 
 		// right face
-		0.5f,  0.5f,  0.5f,		0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,		1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,		1.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,		1.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,		0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,		0.0f, 1.0f,
+		1.0f,  1.0f,  1.0f,		0.0f, 1.0f,
+		1.0f, 0.0f, 0.0f,		1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,		1.0f, 1.0f,
+		1.0f, 0.0f, 0.0f,		1.0f, 0.0f,
+		1.0f, 1.0f, 1.0f,		0.0f, 1.0f,
+		1.0f, 0.0f,  1.0f,		0.0f, 0.0f,
 
 		// bottom face
-		-0.5f, -0.5f, -0.5f,	0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,		1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,		1.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,		1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,	0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,	0.0f, 1.0f,
+		0.0f, 0.0f, 0.0f,	0.0f, 1.0f,
+		1.0f, 0.0f, 0.0f,		1.0f, 1.0f,
+		1.0f, 0.0f,  1.0f,		1.0f, 0.0f,
+		1.0f, 0.0f,  1.0f,		1.0f, 0.0f,
+		0.0f, 0.0f,  1.0f,	0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,	0.0f, 1.0f,
 
 		// top face
-		-0.5f,  0.5f, -0.5f,	0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,		1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,		1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,		1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,	0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,	0.0f, 1.0f
+		0.0f,  1.0f, 0.0f,	0.0f, 1.0f,
+		1.0f,  1.0f, 1.0f,		1.0f, 0.0f,
+		1.0f,  1.0f, 0.0f,		1.0f, 1.0f,
+		1.0f,  1.0f, 1.0f,		1.0f, 0.0f,
+		0.0f,  1.0f, 0.0f,	0.0f, 1.0f,
+		0.0f,  1.0f, 1.0f,		0.0f, 0.0f
 	};
 
 	glGenVertexArrays(1, &vao);
@@ -91,7 +94,8 @@ void CubeRenderer::beginRender(long x, long y, long z, const Camera & cam)
 	model = glm::translate(model, glm::vec3(float(x), float(y), float(z)));
 	glm::mat4 view = glm::lookAt(cam.getEyePos(), cam.getEyePos() + cam.getFront(), cam.getUp());
 	// TODO: magic numbers
-	glm::mat4 proj = glm::perspective(45.0f, (float)800.0f / (float)600.0f, 0.1f, 100.0f);
+	// NOTE: OPTIMIZATION: "proj" rarely changes, make it static
+	static glm::mat4 proj = glm::perspective(45.0f, (float)800.0f / (float)600.0f, 0.1f, 100.0f);
 	glm::mat4 mat = proj * view * model;
 
 	// active program and texture

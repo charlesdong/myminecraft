@@ -2,34 +2,34 @@
 #include <algorithm>
 #include <cstring>
 
-//std::vector<Texture> TextureManager::textures;
-//std::vector <std::string> TextureManager::filenames;
-std::map<std::string, Texture> TextureManager::textures;
+std::vector<Texture> TextureManager::textures;
+std::vector <std::string> TextureManager::filenames;
 
-void TextureManager::load(const char * name)
+int TextureManager::load(const char * name)
 {
-	/*
-	auto result = std::find(filenames.begin(), filenames.end(), file);
+	// get the complete file name
+	char filename[256];		// TODO: allocate memory dynamically
+	strcpy_s(filename, "textures/");
+	strcat_s(filename, name);
+	strcat_s(filename, ".png");
+
+	// check if texture under the same name has loaded
+	auto result = std::find(filenames.begin(), filenames.end(), filename);
 	if (result != filenames.end())
 	{
 		int index = result - filenames.begin();
 		return index;
 	}
-	*/
-	if (textures.find(name) != textures.end())
-		return;
 
+	filenames.push_back(filename);
 	Texture t;
-	char filename[256];		// TODO: allocate memory dynamically
-	strcpy_s(filename, "textures/");
-	strcat_s(filename, name);
-	strcat_s(filename, ".png");
 	t.load(filename);
-	//textures.push_back(t);
-	textures[name] = t;
+	textures.push_back(t);
+
+	return textures.size() - 1;
 }
 
-Texture & TextureManager::get(const char * name)
+Texture & TextureManager::get(int index)
 {
-	return textures[name];
+	return textures[index];
 }

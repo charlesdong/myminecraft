@@ -5,7 +5,7 @@ World::World()
 {
 }
 
-void World::init()
+void World::init(CubeRenderer * pRenderer)
 {
 	for (int i = 0; i < X; i++)
 		for (int j = 0; j < Y; j++)
@@ -20,7 +20,7 @@ void World::init()
 				else if (j == 4)
 					blocks[i][j][k] = new BlockGrass;
 			}
-	renderer.init();
+	renderer.init(pRenderer);
 }
 
 void World::render(const Camera & cam)
@@ -29,6 +29,10 @@ void World::render(const Camera & cam)
 		for (int j = 0; j < Y; j++)
 			for (int k = 0; k < Z; k++)
 			{
+				// do not render empty/air blocks
+				if (blocks[i][j][k] == 0)
+					continue;
+
 				// NOTE: for OpenGL, the right-handed coordinate system is used
 				renderer.beginRender(i, j, k, cam, blocks[i][j][k]);
 				if (i == 0 || blocks[i - 1][j][k] == 0)
@@ -53,4 +57,17 @@ void World::clear()
 		for (int j = 0; j < Y; j++)
 			for (int k = 0; k < Z; k++)
 				delete blocks[i][j][k];
+}
+
+bool World::hasBlock(long x, long y, long z) const
+{
+	if (x < 0L || x >= X || y < 0L || y >= Y || z < 0L || z >= Z)
+		return false;
+	return blocks[x][y][z] != 0;
+}
+
+void World::destroyBlock(long x, long y, long z)
+{
+	if (hasBlock(x, y, z))
+		blocks[x][y][z] = 0;
 }

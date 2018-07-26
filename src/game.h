@@ -4,7 +4,10 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include "camera.h"
+#include "cuberenderer.h"
+#include "bidimensionalrenderer.h"
 #include "world.h"
+#include "selectframe.h"
 
 #define pGame (Game::getPointer())
 
@@ -12,8 +15,11 @@ class Game
 {
 private:
 	GLFWwindow * window;
+	CubeRenderer cubeRenderer;
+	BidimensionalRenderer bidRenderer;
 	Camera camera;
 	World world;
+	SelectFrame selFrame;
 	int fps;
 
 	void init();

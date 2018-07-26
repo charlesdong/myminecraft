@@ -5,10 +5,10 @@ RenderBlock::RenderBlock()
 {
 }
 
-void RenderBlock::init()
+void RenderBlock::init(CubeRenderer * pRenderer)
 {
+	renderer = pRenderer;
 	loadTextures();
-	renderer.init();
 }
 
 void RenderBlock::loadTextures()
@@ -33,27 +33,27 @@ short RenderBlock::getBlockType(const Block * b) const
 
 void RenderBlock::beginRender(long x, long y, long z, const Camera & cam, const Block * b)
 {
-	renderer.beginRender(x, y, z, cam);
+	renderer->beginRender(x, y, z, cam);
 	idCurrent = getBlockType(b);
 }
 
 void RenderBlock::render(int face)
 {
-	renderer.setAuxColor(glm::vec3(1.0f, 1.0f, 1.0f));
+	renderer->setAuxColor(glm::vec3(1.0f, 1.0f, 1.0f));
 	if (face == TOP)
 	{
 		if (idCurrent == idGrass)
-			renderer.setAuxColor(glm::vec3(0.71f, 1.18f, 0.34f));
-		TextureManager::get(blockMgr.getBlockData(idCurrent).texTop.c_str()).bind();
+			renderer->setAuxColor(glm::vec3(0.71f, 1.18f, 0.34f));
+		TextureManager::get(blockMgr.getBlockData(idCurrent).texTop).bind();
 	}
 	else if (face == BOTTOM)
-		TextureManager::get(blockMgr.getBlockData(idCurrent).texBottom.c_str()).bind();
+		TextureManager::get(blockMgr.getBlockData(idCurrent).texBottom).bind();
 	else
-		TextureManager::get(blockMgr.getBlockData(idCurrent).texSide.c_str()).bind();
-	renderer.render(face);
+		TextureManager::get(blockMgr.getBlockData(idCurrent).texSide).bind();
+	renderer->render(face);
 }
 
 void RenderBlock::clear()
 {
-	renderer.clear();
+	renderer->clear();
 }

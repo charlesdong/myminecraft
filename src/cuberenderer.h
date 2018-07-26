@@ -16,6 +16,8 @@ private:
 	unsigned int vao;
 	unsigned int vbo;
 	Program prog;
+
+	void initCubeRendering();
 public:
 	CubeRenderer();
 	void init();
