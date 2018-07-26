@@ -58,7 +58,7 @@ void SelectFrame::render()
 	TextureManager::get(indexTexFrame).bind();
 	for (int i = 0; i < 6; i++)
 		pCubeRenderer->render(i);
-		*/
+	*/
 	TextureManager::get(indexTexCursor).bind();
 	pBidRenderer->render(glm::ivec2(400, 300), glm::ivec2(32, 32));
 }

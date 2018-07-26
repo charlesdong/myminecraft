@@ -21,6 +21,7 @@ public:
 
 	bool hasBlock(long x, long y, long z) const;
 	void destroyBlock(long x, long y, long z);
+	void setBlock(long x, long y, long z);
 };
 
 #endif

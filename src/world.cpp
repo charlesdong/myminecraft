@@ -30,22 +30,22 @@ void World::render(const Camera & cam)
 			for (int k = 0; k < Z; k++)
 			{
 				// do not render empty/air blocks
-				if (blocks[i][j][k] == 0)
+				if (blocks[i][j][k] == nullptr)
 					continue;
 
 				// NOTE: for OpenGL, the right-handed coordinate system is used
 				renderer.beginRender(i, j, k, cam, blocks[i][j][k]);
-				if (i == 0 || blocks[i - 1][j][k] == 0)
+				if (i == 0 || blocks[i - 1][j][k] == nullptr)
 					renderer.render(LEFT);
-				if (i == X - 1 || blocks[i + 1][j][k] == 0)
+				if (i == X - 1 || blocks[i + 1][j][k] == nullptr)
 					renderer.render(RIGHT);
-				if (j == 0 || blocks[i][j - 1][k] == 0)
+				if (j == 0 || blocks[i][j - 1][k] == nullptr)
 					renderer.render(BOTTOM);
-				if (j == Y - 1 || blocks[i][j + 1][k] == 0)
+				if (j == Y - 1 || blocks[i][j + 1][k] == nullptr)
 					renderer.render(TOP);
-				if (k == 0 || blocks[i][j][k - 1] == 0)
+				if (k == 0 || blocks[i][j][k - 1] == nullptr)
 					renderer.render(BACK);
-				if (k == Z - 1 || blocks[i][j][k + 1] == 0)
+				if (k == Z - 1 || blocks[i][j][k + 1] == nullptr)
 					renderer.render(FRONT);
 			}
 }
@@ -63,11 +63,15 @@ bool World::hasBlock(long x, long y, long z) const
 {
 	if (x < 0L || x >= X || y < 0L || y >= Y || z < 0L || z >= Z)
 		return false;
-	return blocks[x][y][z] != 0;
+	return blocks[x][y][z] != nullptr;
 }
 
 void World::destroyBlock(long x, long y, long z)
 {
 	if (hasBlock(x, y, z))
-		blocks[x][y][z] = 0;
+	{
+		delete blocks[x][y][z];
+		blocks[x][y][z] = nullptr;
+	}
 }
+
