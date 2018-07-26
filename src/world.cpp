@@ -19,6 +19,8 @@ void World::init(CubeRenderer * pRenderer)
 					blocks[i][j][k] = new BlockDirt;
 				else if (j == 4)
 					blocks[i][j][k] = new BlockGrass;
+				else
+					blocks[i][j][k] = nullptr;
 			}
 	renderer.init(pRenderer);
 }
@@ -59,19 +61,30 @@ void World::clear()
 				delete blocks[i][j][k];
 }
 
+bool World::inRange(long x, long y, long z) const
+{
+	return x >= 0L && x < X && y >= 0L && y < Y && z >= 0L && z < Z;
+}
+
 bool World::hasBlock(long x, long y, long z) const
 {
-	if (x < 0L || x >= X || y < 0L || y >= Y || z < 0L || z >= Z)
-		return false;
-	return blocks[x][y][z] != nullptr;
+	return inRange(x, y, z) && blocks[x][y][z] != nullptr;
 }
 
 void World::destroyBlock(long x, long y, long z)
 {
-	if (hasBlock(x, y, z))
+	if (inRange(x, y, z))
 	{
 		delete blocks[x][y][z];
 		blocks[x][y][z] = nullptr;
 	}
 }
 
+void World::setBlock(long x, long y, long z)
+{
+	if (inRange(x, y, z))
+	{
+		delete blocks[x][y][z];
+		blocks[x][y][z] = new BlockStone;
+	}
+}

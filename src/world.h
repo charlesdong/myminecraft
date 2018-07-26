@@ -8,7 +8,7 @@ class World
 {
 private:
 	static const int X = 10;
-	static const int Y = 5;
+	static const int Y = 10;
 	static const int Z = 10;
 
 	Block * blocks[X][Y][Z];
@@ -19,6 +19,7 @@ public:
 	void render(const Camera & cam);
 	void clear();
 
+	bool inRange(long x, long y, long z) const;
 	bool hasBlock(long x, long y, long z) const;
 	void destroyBlock(long x, long y, long z);
 	void setBlock(long x, long y, long z);
