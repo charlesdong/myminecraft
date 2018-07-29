@@ -38,6 +38,11 @@ public:
 		glUniform3fv(LOCATION, 1, glm::value_ptr(vec));
 	}
 
+	void setMat3f(const char * name, const glm::mat3 & mat) const
+	{
+		glUniformMatrix3fv(LOCATION, 1, GL_FALSE, glm::value_ptr(mat));
+	}
+
 	void setMat4f(const char * name, const glm::mat4 & mat) const
 	{
 		glUniformMatrix4fv(LOCATION, 1, GL_FALSE, glm::value_ptr(mat));

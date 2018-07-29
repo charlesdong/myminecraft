@@ -14,7 +14,15 @@ private:
 public:
 	BidimensionalRenderer();
 	void init();
-	void render(const glm::ivec2 & position, const glm::ivec2 & size);
+	void render(
+		const glm::ivec2 & position,
+		const glm::ivec2 & size,
+		const float txmin = 0.0f,
+		const float txmax = 1.0f,
+		const float tymin = 0.0f,
+		const float tymax = 1.0f,
+		bool centralized = true
+	);
 	void clear();
 };
 

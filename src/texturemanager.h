@@ -11,9 +11,8 @@ class TextureManager
 private:
 	static std::vector<Texture> textures;
 	static std::vector<std::string> filenames;
-	//static std::map<std::string, Texture> textures;
 public:
-	static int load(const char * name);
+	static int load(const char * filename);
 	static Texture & get(int index);
 };
 

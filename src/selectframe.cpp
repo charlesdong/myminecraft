@@ -17,7 +17,7 @@ void SelectFrame::init(const Camera * pCam, CubeRenderer * pCubeRendererArg, Bid
 	selPrecision = 0.05;
 	selDistance = 4.0;
 
-	indexTexCursor = TextureManager::load("cursor");
+	indexTexCursor = TextureManager::load("gui/cursor.png");
 }
 
 void SelectFrame::update()

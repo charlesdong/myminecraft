@@ -5,13 +5,12 @@
 std::vector<Texture> TextureManager::textures;
 std::vector <std::string> TextureManager::filenames;
 
-int TextureManager::load(const char * name)
+int TextureManager::load(const char * filename)
 {
 	// get the complete file name
-	char filename[256];		// TODO: allocate memory dynamically
-	strcpy_s(filename, "textures/");
-	strcat_s(filename, name);
-	strcat_s(filename, ".png");
+	char filenameComplete[256];		// TODO: allocate memory dynamically
+	strcpy_s(filenameComplete, "textures/");
+	strcat_s(filenameComplete, filename);
 
 	// check if texture under the same name has loaded
 	auto result = std::find(filenames.begin(), filenames.end(), filename);
@@ -23,7 +22,7 @@ int TextureManager::load(const char * name)
 
 	filenames.push_back(filename);
 	Texture t;
-	t.load(filename);
+	t.load(filenameComplete);
 	textures.push_back(t);
 
 	return textures.size() - 1;

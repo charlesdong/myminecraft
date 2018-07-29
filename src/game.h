@@ -8,6 +8,8 @@
 #include "bidimensionalrenderer.h"
 #include "world.h"
 #include "selectframe.h"
+#include "textrenderer.h"
+#include "debugscreen.h"
 
 #define pGame (Game::getPointer())
 
@@ -20,7 +22,13 @@ private:
 	Camera camera;
 	World world;
 	SelectFrame selFrame;
-	int fps;
+	TextRenderer textRenderer;
+	DebugScreen debugScreen;
+
+	static const char * version;
+
+	int fps;			// FPS of last second
+	int frames;			// number of frames counted in this second (have not passed)
 
 	void init();
 	void loop();
@@ -45,6 +53,11 @@ public:
 	}
 
 	glm::dvec2 getCursorPos() const;
+
+	int getFps() const
+	{
+		return fps;
+	}
 
 	static Game * getPointer()
 	{

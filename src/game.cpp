@@ -1,11 +1,10 @@
 #include "game.h"
 #include <iostream>
-#include <string>
-#include <sstream>
+#include <cstdio>
 using std::cout;
-using std::endl;
 
 Game * Game::game = nullptr;
+const char * Game::version = "0.3";
 
 Game::Game()
 {
@@ -30,7 +29,7 @@ void Game::init()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// TODO: magic number "800" and "600"
-	window = glfwCreateWindow(800, 600, "MyMinecraft 0.2", nullptr, nullptr);
+	window = glfwCreateWindow(800, 600, "MyMinecraft 0.3", nullptr, nullptr);
 	if (window == nullptr)
 		cout << "Failed to create window using GLFW!\n";
 	glfwMakeContextCurrent(window);
@@ -51,6 +50,8 @@ void Game::init()
 	world.init(&cubeRenderer);
 	selFrame.init(&camera, &cubeRenderer, &bidRenderer, &world);
 	bidRenderer.init();
+	textRenderer.init(&bidRenderer);
+	debugScreen.init(&camera, &textRenderer);
 
 	fps = 0;
 }
@@ -72,17 +73,16 @@ void Game::clear()
 
 void Game::update()
 {
+	// update FPS
 	static int timeInt = int(glfwGetTime());
 	double timeCur = glfwGetTime();
 	if (timeCur - timeInt < 1.0)
-		fps++;
+		frames++;
 	else
 	{
-		std::ostringstream oss;
-		oss << "MyMinecraft 0.2 [FPS: " << fps << "]";
-		glfwSetWindowTitle(window, oss.str().c_str());
-		fps = 0;
-		timeInt = int(timeCur);
+		fps = frames;
+		frames = 0;
+		timeInt = int(glfwGetTime());
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -90,6 +90,7 @@ void Game::update()
 
 	camera.update();
 	selFrame.update();
+	debugScreen.update();
 }
 
 void Game::render()
@@ -97,6 +98,7 @@ void Game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	world.render(camera);
 	selFrame.render();
+	debugScreen.render();
 }
 
 glm::dvec2 Game::getCursorPos() const

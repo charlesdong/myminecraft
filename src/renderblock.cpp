@@ -13,10 +13,10 @@ void RenderBlock::init(CubeRenderer * pRenderer)
 
 void RenderBlock::loadTextures()
 {
-	idDirt = blockMgr.load("dirt");
-	idGrass = blockMgr.load("grass_side", "grass_top", "dirt");
-	idStone = blockMgr.load("stone");
-	idBedrock = blockMgr.load("bedrock");
+	idDirt = blockMgr.load("block/dirt.png");
+	idGrass = blockMgr.load("block/grass_side.png", "block/grass_top.png", "block/dirt.png");
+	idStone = blockMgr.load("block/stone.png");
+	idBedrock = blockMgr.load("block/bedrock.png");
 }
 
 short RenderBlock::getBlockType(const Block * b) const

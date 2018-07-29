@@ -25,6 +25,11 @@ public:
 		return eyePosition;
 	}
 
+	glm::dvec3 getPlayerPos() const
+	{
+		return eyePosition - glm::dvec3(0.0, 1.6, 0.0);
+	}
+
 	const glm::dvec3 & getFront() const
 	{
 		return front;

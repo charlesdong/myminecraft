@@ -102,6 +102,8 @@ void CubeRenderer::beginRender(long x, long y, long z, const Camera & cam)
 	prog.use();
 	prog.setMat4f("mat", mat);
 
+	glEnable(GL_DEPTH_TEST);
+
 	glBindVertexArray(vao);
 }
 

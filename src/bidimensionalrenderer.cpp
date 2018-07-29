@@ -46,10 +46,22 @@ void BidimensionalRenderer::init()
 	glBindVertexArray(0);
 }
 
-void BidimensionalRenderer::render(const glm::ivec2 & position, const glm::ivec2 & size)
+void BidimensionalRenderer::render(
+	const glm::ivec2 & position,
+	const glm::ivec2 & size,
+	const float txmin,
+	const float txmax,
+	const float tymin,
+	const float tymax,
+	bool centralized
+)
 {
+	glm::vec3 posLeftBottom((float)position.x, (float)position.y, 0.0f);
+	if (!centralized)
+		posLeftBottom += glm::vec3((float)size.x, (float)size.y, 0.0f) * 0.5f;
+
 	glm::mat4 model;
-	model = glm::translate(model, glm::vec3((float)position.x, (float)position.y, 0.0f));
+	model = glm::translate(model, posLeftBottom);
 	model = glm::scale(model, glm::vec3((float)size.x, (float)size.y, 1.0f));
 
 	static glm::mat4 proj = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f);		// TODO: magic numbers
@@ -59,9 +71,23 @@ void BidimensionalRenderer::render(const glm::ivec2 & position, const glm::ivec2
 	prog.use();
 	prog.setMat4f("mat", mat);
 
-	glm::vec4 v = mat * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	// WRONG MATRIX:
+	/*
+	glm::mat3 matTex(
+		1.0f / (txmax - txmin), 0.0f, 0.0f,
+		0.0f, 1.0f / (tymax - tymin), 0.0f,
+		txmin / (txmin - txmax), tymin / (tymin - tymax), 1.0f
+	);
+	*/
+	// CORRECT MATRIX:
+	glm::mat3 matTex(
+		txmax - txmin, 0, 0,
+		0, tymax - tymin, 0,
+		txmin, tymin, 1
+	);
+	prog.setMat3f("mat_tex", matTex);
 
-	// QUESTION: Is glDisable(GL_DEPTH_TEST) needed?
+	glDisable(GL_DEPTH_TEST);
 
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
