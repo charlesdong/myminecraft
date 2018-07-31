@@ -6,7 +6,7 @@ World::World()
 {
 }
 
-void World::init()
+void World::init(RenderBlock * pRenderBlock)
 {
 	for (int i = 0; i < WORLD_X; i++)
 		for (int j = 0; j < WORLD_Y; j++)
@@ -23,40 +23,39 @@ void World::init()
 				else
 					blocks[i][j][k] = nullptr;
 			}
+	renderBlock = pRenderBlock;
 }
 
-/*
-void World::render()
+void World::render(const glm::dvec3 & eyePosition, const glm::dvec3 & frontInScene, const glm::dvec3 & up)
 {
-	for (int i = 0; i < X; i++)
-		for (int j = 0; j < Y; j++)
-			for (int k = 0; k < Z; k++)
+	for (int i = 0; i < WORLD_X; i++)
+		for (int j = 0; j < WORLD_Y; j++)
+			for (int k = 0; k < WORLD_Z; k++)
 			{
 				// do not render empty/air blocks
 				if (blocks[i][j][k] == nullptr)
 					continue;
 
 				// NOTE: for OpenGL, the right-handed coordinate system is used
-				renderer.beginRender(i, j, k, blocks[i][j][k]);
+				renderBlock->beginRender(i, j, k, blocks[i][j][k], eyePosition, frontInScene, up);
 				if (i == 0 || blocks[i - 1][j][k] == nullptr)
-					renderer.render(LEFT);
-				if (i == X - 1 || blocks[i + 1][j][k] == nullptr)
-					renderer.render(RIGHT);
+					renderBlock->render(LEFT);
+				if (i == WORLD_X - 1 || blocks[i + 1][j][k] == nullptr)
+					renderBlock->render(RIGHT);
 				if (j == 0 || blocks[i][j - 1][k] == nullptr)
-					renderer.render(BOTTOM);
-				if (j == Y - 1 || blocks[i][j + 1][k] == nullptr)
-					renderer.render(TOP);
+					renderBlock->render(BOTTOM);
+				if (j == WORLD_Y - 1 || blocks[i][j + 1][k] == nullptr)
+					renderBlock->render(TOP);
 				if (k == 0 || blocks[i][j][k - 1] == nullptr)
-					renderer.render(BACK);
-				if (k == Z - 1 || blocks[i][j][k + 1] == nullptr)
-					renderer.render(FRONT);
+					renderBlock->render(BACK);
+				if (k == WORLD_Z - 1 || blocks[i][j][k + 1] == nullptr)
+					renderBlock->render(FRONT);
 			}
 }
-*/
 
 void World::clear()
 {
-	//renderer.clear();
+	renderBlock->clear();
 	for (int i = 0; i < WORLD_X; i++)
 		for (int j = 0; j < WORLD_Y; j++)
 			for (int k = 0; k < WORLD_Z; k++)

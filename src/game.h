@@ -5,7 +5,6 @@
 #include <GLFW/glfw3.h>
 #include "cuberenderer.h"
 #include "renderblock.h"
-#include "renderworld.h"
 #include "bidimensionalrenderer.h"
 #include "world.h"
 #include "selectframe.h"
@@ -21,9 +20,7 @@ private:
 	GLFWwindow * window;
 	CubeRenderer cubeRenderer;
 	RenderBlock renderBlock;
-	RenderWorld renderWorld;
 	BidimensionalRenderer bidRenderer;
-	//Camera camera;
 	World world;
 	SelectFrame selFrame;
 	TextRenderer textRenderer;

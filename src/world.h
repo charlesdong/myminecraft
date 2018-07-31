@@ -3,6 +3,8 @@
 
 #include "block.h"
 #include "aabb.h"
+#include "renderblock.h"
+#include "cuberenderer.h"
 #include <vector>
 
 class World
@@ -14,12 +16,12 @@ public:
 
 private:
 	Block * blocks[WORLD_X][WORLD_X][WORLD_X];
-	//RenderBlock renderer;
+	RenderBlock * renderBlock;
 
 public:
 	World();
-	void init();
-	//void render();
+	void init(RenderBlock * pRenderBlock);
+	void render(const glm::dvec3 & eyePosition, const glm::dvec3 & frontInScene, const glm::dvec3 & up);
 	void clear();
 
 	bool inRange(long x, long y, long z) const;

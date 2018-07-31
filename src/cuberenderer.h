@@ -6,7 +6,6 @@
 #include "program.h"
 #include "texture.h"
 #include "blockmanager.h"
-#include "player.h"
 
 enum Face { BACK, FRONT, LEFT, RIGHT, BOTTOM, TOP };
 
@@ -16,13 +15,12 @@ private:
 	unsigned int vao;
 	unsigned int vbo;
 	Program prog;
-	const Player * player;
 
 	void initCubeRendering();
 public:
 	CubeRenderer();
-	void init(const Player * pPlayer);
-	void beginRender(long x, long y, long z);
+	void init();
+	void beginRender(long x, long y, long z, const glm::dvec3 & eyePosition, const glm::dvec3 & frontInScene, const glm::dvec3 & up);
 
 	void setAuxColor(const glm::vec3 & color)
 	{

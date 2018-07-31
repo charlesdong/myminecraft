@@ -13,11 +13,10 @@ CubeRenderer::CubeRenderer()
 {
 }
 
-void CubeRenderer::init(const Player * pPlayer)
+void CubeRenderer::init()
 {
 	prog.load("shaders/shader.vert", "shaders/shader.frag");
 	initCubeRendering();
-	player = pPlayer;
 }
 
 void CubeRenderer::initCubeRendering()
@@ -91,16 +90,16 @@ void CubeRenderer::initCubeRendering()
 	glBindVertexArray(0);
 }
 
-void CubeRenderer::beginRender(long x, long y, long z)
+void CubeRenderer::beginRender(long x, long y, long z, const glm::dvec3 & eyePosition, const glm::dvec3 & frontInScene, const glm::dvec3 & up)
 {
 	// Calculate the model-view-projection matrix.
 	glm::mat4 model;
 	model = glm::translate(model, glm::vec3(float(x), float(y), float(z)));
 	//std::cout << player << std::endl;
 	glm::mat4 view = glm::lookAt(
-		player->getEyePosition(),
-		player->getEyePosition() + player->getFrontInScene(),
-		player->getUp()
+		eyePosition,
+		eyePosition + frontInScene,
+		up
 	);
 
 	// TODO: magic numbers

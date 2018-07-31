@@ -31,9 +31,9 @@ short RenderBlock::getBlockType(const Block * b) const
 		return idBedrock;
 }
 
-void RenderBlock::beginRender(long x, long y, long z, const Block * b)
+void RenderBlock::beginRender(long x, long y, long z, const Block * b, const glm::dvec3 & eyePosition, const glm::dvec3 & frontInScene, const glm::dvec3 & up)
 {
-	cubeRenderer->beginRender(x, y, z);
+	cubeRenderer->beginRender(x, y, z, eyePosition, frontInScene, up);
 	idCurrent = getBlockType(b);
 }
 

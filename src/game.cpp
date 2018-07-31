@@ -46,10 +46,9 @@ void Game::init()
 
 	glClearColor(0.51f, 0.68f, 1.0f, 1.0f);		// sky color values (from a pixel from a screenshot)
 
-	cubeRenderer.init(&player);
+	cubeRenderer.init();
 	renderBlock.init(&cubeRenderer);
-	renderWorld.init(&world, &renderBlock);
-	world.init();
+	world.init(&renderBlock);
 	selFrame.init(&player, &bidRenderer, &world);
 	bidRenderer.init();
 	textRenderer.init(&bidRenderer);
@@ -104,8 +103,7 @@ void Game::update()
 void Game::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//world.render();
-	renderWorld.render();
+	world.render(player.getEyePosition(), player.getFrontInScene(), player.getUp());
 	selFrame.render();
 	debugScreen.render();
 }
