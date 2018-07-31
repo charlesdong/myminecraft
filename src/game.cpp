@@ -46,12 +46,15 @@ void Game::init()
 
 	glClearColor(0.51f, 0.68f, 1.0f, 1.0f);		// sky color values (from a pixel from a screenshot)
 
-	cubeRenderer.init();
-	world.init(&cubeRenderer);
-	selFrame.init(&camera, &cubeRenderer, &bidRenderer, &world);
+	cubeRenderer.init(&player);
+	renderBlock.init(&cubeRenderer);
+	renderWorld.init(&world, &renderBlock);
+	world.init();
+	selFrame.init(&player, &bidRenderer, &world);
 	bidRenderer.init();
 	textRenderer.init(&bidRenderer);
-	debugScreen.init(&camera, &textRenderer);
+	debugScreen.init(&player, &textRenderer);
+	player.init(&world);
 
 	fps = 0;
 }
@@ -73,9 +76,14 @@ void Game::clear()
 
 void Game::update()
 {
-	// update FPS
+	// update deltaTime
 	static int timeInt = int(glfwGetTime());
+	static double timeLast = 0.0;
 	double timeCur = glfwGetTime();
+	deltaTime = timeCur - timeLast;
+	timeLast = timeCur;
+
+	// update FPS
 	if (timeCur - timeInt < 1.0)
 		frames++;
 	else
@@ -88,15 +96,16 @@ void Game::update()
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 
-	camera.update();
 	selFrame.update();
 	debugScreen.update();
+	player.update();
 }
 
 void Game::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	world.render(camera);
+	//world.render();
+	renderWorld.render();
 	selFrame.render();
 	debugScreen.render();
 }

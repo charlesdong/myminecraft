@@ -6,14 +6,18 @@
 #include "blockmanager.h"
 #include "texturemanager.h"
 
+#include <iostream>
+using std::cout;
+
 CubeRenderer::CubeRenderer()
 {
 }
 
-void CubeRenderer::init()
+void CubeRenderer::init(const Player * pPlayer)
 {
 	prog.load("shaders/shader.vert", "shaders/shader.frag");
 	initCubeRendering();
+	player = pPlayer;
 }
 
 void CubeRenderer::initCubeRendering()
@@ -87,12 +91,18 @@ void CubeRenderer::initCubeRendering()
 	glBindVertexArray(0);
 }
 
-void CubeRenderer::beginRender(long x, long y, long z, const Camera & cam)
+void CubeRenderer::beginRender(long x, long y, long z)
 {
-	// calculate the model-view-projection matrix
+	// Calculate the model-view-projection matrix.
 	glm::mat4 model;
 	model = glm::translate(model, glm::vec3(float(x), float(y), float(z)));
-	glm::mat4 view = glm::lookAt(cam.getEyePos(), cam.getEyePos() + cam.getFront(), cam.getUp());
+	//std::cout << player << std::endl;
+	glm::mat4 view = glm::lookAt(
+		player->getEyePosition(),
+		player->getEyePosition() + player->getFrontInScene(),
+		player->getUp()
+	);
+
 	// TODO: magic numbers
 	// NOTE: OPTIMIZATION: "proj" rarely changes, make it static
 	static glm::mat4 proj = glm::perspective(45.0f, (float)800.0f / (float)600.0f, 0.1f, 100.0f);

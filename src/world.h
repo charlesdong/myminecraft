@@ -1,28 +1,34 @@
 #ifndef WORLD_H_
 #define WORLD_H_
 
-#include "renderblock.h"
 #include "block.h"
+#include "aabb.h"
+#include <vector>
 
 class World
 {
-private:
-	static const int X = 10;
-	static const int Y = 10;
-	static const int Z = 10;
+public:
+	static const int WORLD_X = 10;
+	static const int WORLD_Y = 10;
+	static const int WORLD_Z = 10;
 
-	Block * blocks[X][Y][Z];
-	RenderBlock renderer;
+private:
+	Block * blocks[WORLD_X][WORLD_X][WORLD_X];
+	//RenderBlock renderer;
+
 public:
 	World();
-	void init(CubeRenderer * pRenderer);
-	void render(const Camera & cam);
+	void init();
+	//void render();
 	void clear();
 
 	bool inRange(long x, long y, long z) const;
 	bool hasBlock(long x, long y, long z) const;
+	bool hasBlockSimple(long x, long y, long z) const;
+	const Block * getBlockPtr(long x, long y, long z) const;
 	void destroyBlock(long x, long y, long z);
 	void setBlock(long x, long y, long z);
+	std::vector<AABB> getHitboxes(const AABB & box);
 };
 
 #endif

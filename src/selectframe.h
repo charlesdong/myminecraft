@@ -2,19 +2,19 @@
 #define SELECTFRAME_H_
 
 #include <glm/glm.hpp>
-#include "camera.h"
 #include "cuberenderer.h"
 #include "bidimensionalrenderer.h"
 #include "world.h"
+#include "player.h"
 
 class SelectFrame
 {
 private:
 	// pointers
-	const Camera * pCamera;
-	CubeRenderer * pCubeRenderer;
-	BidimensionalRenderer * pBidRenderer;
-	World * pWorld;
+	const Player * player;
+	//CubeRenderer * cubeRenderer;
+	BidimensionalRenderer * bidRenderer;
+	World * world;
 
 	// selection
 	double selPrecision;
@@ -35,7 +35,7 @@ private:
 	bool hasJustTraversedNegatively(double frac) const { return frac > 1.0 - selPrecision; }
 public:
 	SelectFrame();
-	void init(const Camera * pCam, CubeRenderer * pCubeRendererArg, BidimensionalRenderer * pBidRendererArg, World * pWorldArg);
+	void init(const Player * pPlayer, BidimensionalRenderer * pBidRenderer, World * pWorld);
 	void update();
 	void render();
 };

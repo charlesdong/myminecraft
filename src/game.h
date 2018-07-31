@@ -3,13 +3,15 @@
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include "camera.h"
 #include "cuberenderer.h"
+#include "renderblock.h"
+#include "renderworld.h"
 #include "bidimensionalrenderer.h"
 #include "world.h"
 #include "selectframe.h"
 #include "textrenderer.h"
 #include "debugscreen.h"
+#include "player.h"
 
 #define pGame (Game::getPointer())
 
@@ -18,17 +20,21 @@ class Game
 private:
 	GLFWwindow * window;
 	CubeRenderer cubeRenderer;
+	RenderBlock renderBlock;
+	RenderWorld renderWorld;
 	BidimensionalRenderer bidRenderer;
-	Camera camera;
+	//Camera camera;
 	World world;
 	SelectFrame selFrame;
 	TextRenderer textRenderer;
 	DebugScreen debugScreen;
+	Player player;
 
 	static const char * version;
 
 	int fps;			// FPS of last second
 	int frames;			// number of frames counted in this second (have not passed)
+	double deltaTime;
 
 	void init();
 	void loop();
@@ -57,6 +63,11 @@ public:
 	int getFps() const
 	{
 		return fps;
+	}
+
+	double getDeltaTime() const
+	{
+		return deltaTime;
 	}
 
 	static Game * getPointer()

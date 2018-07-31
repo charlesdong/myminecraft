@@ -3,10 +3,10 @@
 
 #include <vector>
 
-#include "camera.h"
 #include "program.h"
 #include "texture.h"
 #include "blockmanager.h"
+#include "player.h"
 
 enum Face { BACK, FRONT, LEFT, RIGHT, BOTTOM, TOP };
 
@@ -16,12 +16,13 @@ private:
 	unsigned int vao;
 	unsigned int vbo;
 	Program prog;
+	const Player * player;
 
 	void initCubeRendering();
 public:
 	CubeRenderer();
-	void init();
-	void beginRender(long x, long y, long z, const Camera & cam);
+	void init(const Player * pPlayer);
+	void beginRender(long x, long y, long z);
 
 	void setAuxColor(const glm::vec3 & color)
 	{

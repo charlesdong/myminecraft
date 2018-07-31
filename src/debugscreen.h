@@ -1,18 +1,18 @@
 #ifndef DEBUGSCREEN_H_
 #define DEBUGSCREEN_H_
 
-#include "camera.h"
+#include "player.h"
 #include "textrenderer.h"
 
 class DebugScreen
 {
 private:
 	bool isShown;
-	const Camera * camera;
+	const Player * player;
 	TextRenderer * textRenderer;
 public:
 	DebugScreen();
-	void init(const Camera * pCam, TextRenderer * pTexRenderer);
+	void init(const Player * pCam, TextRenderer * pTexRenderer);
 	void update();
 	void render();
 };

@@ -9,9 +9,9 @@ DebugScreen::DebugScreen()
 	isShown = true;		// DEBUGGING
 }
 
-void DebugScreen::init(const Camera * pCam, TextRenderer * pTextRenderer)
+void DebugScreen::init(const Player * pPlayer, TextRenderer * pTextRenderer)
 {
-	camera = pCam;
+	player = pPlayer;
 	textRenderer = pTextRenderer;
 }
 
@@ -35,7 +35,7 @@ void DebugScreen::render()
 	if (!isShown)
 		return;
 
-	glm::dvec3 position = camera->getPlayerPos();
+	glm::dvec3 position = player->getPosition();
 
 	char buffer[100];
 	sprintf_s(
@@ -46,9 +46,9 @@ void DebugScreen::render()
 		"Y: %.3lf\n"
 		"Z: %.3lf\n",
 		pGame->getFps(),
-		camera->getPlayerPos().x,
-		camera->getPlayerPos().y,
-		camera->getPlayerPos().z
+		position.x,
+		position.y,
+		position.z
 	);
 	textRenderer->render(buffer);
 }

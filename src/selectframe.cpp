@@ -5,15 +5,15 @@
 
 SelectFrame::SelectFrame()
 {
-	pCamera = nullptr;
+	player = nullptr;
 }
 
-void SelectFrame::init(const Camera * pCam, CubeRenderer * pCubeRendererArg, BidimensionalRenderer * pBidRendererArg, World * pWorldArg)
+void SelectFrame::init(const Player * pPlayer, BidimensionalRenderer * pBidRenderer, World * pWorld)
 {
-	pCamera = pCam;
-	pCubeRenderer = pCubeRendererArg;
-	pBidRenderer = pBidRendererArg;
-	pWorld = pWorldArg;
+	player = pPlayer;
+	//cubeRenderer = pCubeRenderer;
+	bidRenderer = pBidRenderer;
+	world = pWorld;
 	selPrecision = 0.05;
 	selDistance = 4.0;
 
@@ -31,7 +31,7 @@ void SelectFrame::update()
 		{
 			if (!buttonLeft)
 			{
-				pWorld->destroyBlock(selBlock.x, selBlock.y, selBlock.z);
+				world->destroyBlock(selBlock.x, selBlock.y, selBlock.z);
 				buttonLeft = true;
 			}
 		}
@@ -41,7 +41,7 @@ void SelectFrame::update()
 		{
 			if (!buttonRight)
 			{
-				pWorld->setBlock(selBlockAdj.x, selBlockAdj.y, selBlockAdj.z);
+				world->setBlock(selBlockAdj.x, selBlockAdj.y, selBlockAdj.z);
 				buttonRight = true;
 			}
 		}
@@ -52,18 +52,18 @@ void SelectFrame::update()
 
 void SelectFrame::select()
 {
-	glm::dvec3 posCur = pCamera->getEyePos();
+	glm::dvec3 posCur = player->getEyePosition();
 	glm::ivec3 result(-1, -1, -1);				// Currently, a position of (-1, -1, -1) means "none selected"
 	// selecting principle: emit a ray from the eye towards the front
 	// and extend it continuously (until limit reached), see what's
 	// the first block it go through
 	for (double dist = selPrecision; dist <= selDistance; dist += selPrecision)
 	{
-		posCur += pCamera->getFront() * selPrecision;
+		posCur += player->getFrontInScene() * selPrecision;
 		result.x = (int)floor(posCur.x);
 		result.y = (int)floor(posCur.y);
 		result.z = (int)floor(posCur.z);
-		if (pWorld->hasBlock(result.x, result.y, result.z))
+		if (world->hasBlock(result.x, result.y, result.z))
 		{
 			selBlock.x = result.x;
 			selBlock.y = result.y;
@@ -111,5 +111,5 @@ void SelectFrame::render()
 		pCubeRenderer->render(i);
 	*/
 	TextureManager::get(indexTexCursor).bind();
-	pBidRenderer->render(glm::ivec2(400, 300), glm::ivec2(32, 32));
+	bidRenderer->render(glm::ivec2(400, 300), glm::ivec2(32, 32));
 }

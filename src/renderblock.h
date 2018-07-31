@@ -1,14 +1,13 @@
 #ifndef RENDERBLOCK_H_
 #define RENDERBLOCK_H_
 
-#include "camera.h"
 #include "block.h"
 #include "cuberenderer.h"
 
 class RenderBlock
 {
 private:
-	CubeRenderer * renderer;
+	CubeRenderer * cubeRenderer;
 	BlockManager blockMgr;
 	short idCurrent;
 
@@ -24,7 +23,7 @@ public:
 
 	void init(CubeRenderer * pRenderer);
 
-	void beginRender(long x, long y, long z, const Camera & cam, const Block * b);
+	void beginRender(long x, long y, long z, const Block * b);
 	void render(int face);
 
 	void clear();
