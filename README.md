@@ -4,9 +4,9 @@ MyMinecraft is a Minecraft clone written in C++ using OpenGL 3.3.
 
 For readmes in alternative languages, see:
 
-[中文（简体）](https://github.com/charlesdong/myminecraft/blob/master/docs/readme-zh.md) : Chinese (Simplified) version
+[中文（简体）](https://github.com/charlesdong/myminecraft/blob/master/docs/readme-zh.md) (Chinese (Simplified) version)
 
-[Français](https://github.com/charlesdong/myminecraft/blob/master/docs/readme-fr.md) : French version
+[Français](https://github.com/charlesdong/myminecraft/blob/master/docs/readme-fr.md) (French version)
 
 ## Download
 
