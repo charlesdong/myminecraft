@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <cstdio>
 
-Player::Player() : position(0.0, 0.0, -5.0), frontInScene(0.0, 0.0, 1.0), front(0.0, 0.0, 1.0), up(0.0, 1.0, 0.0), pitch(0.0), yaw(90.0), velocity(3.0)
+Player::Player() : position(0.5, 5.0, 0.5), frontInScene(0.0, 0.0, 1.0), front(0.0, 0.0, 1.0), up(0.0, 1.0, 0.0), pitch(0.0), yaw(90.0), velocity(0.0, 0.0, 0.0), speed(3.0), acceleration(8.0), flyModeEnabled(false)
 {
 }
 
@@ -18,22 +18,53 @@ void Player::update()
 
 	// Process key input.
 
-	glm::dvec3 deltaPos;
+	static bool spacePressed = false;
+	static bool f1Pressed = false;
+	velocity.x = 0.0;
+	velocity.z = 0.0;
 
+	if (pGame->isKeyDown(GLFW_KEY_F1))
+	{
+		if (!f1Pressed)
+		{
+			flyModeEnabled = !flyModeEnabled;
+			f1Pressed = true;
+		}
+	}
+	else
+		f1Pressed = false;
 	if (pGame->isKeyDown(GLFW_KEY_A))
-		deltaPos -= glm::cross(front, up) * velocity * deltaTime;
+		velocity -= glm::cross(front, up) * speed;
 	if (pGame->isKeyDown(GLFW_KEY_D))
-		deltaPos += glm::cross(front, up) * velocity * deltaTime;
+		velocity += glm::cross(front, up) * speed;
 	if (pGame->isKeyDown(GLFW_KEY_W))
-		deltaPos += front * velocity * deltaTime;
+		velocity += front * speed;
 	if (pGame->isKeyDown(GLFW_KEY_S))
-		deltaPos -= front * velocity * deltaTime;
-	if (pGame->isKeyDown(GLFW_KEY_UP))
-		deltaPos += up * velocity * deltaTime;
-	if (pGame->isKeyDown(GLFW_KEY_DOWN))
-		deltaPos -= up * velocity * deltaTime;
+		velocity -= front * speed;
+	if (pGame->isKeyDown(GLFW_KEY_SPACE))
+	{
+		if (!flyModeEnabled)
+		{
+			if (!spacePressed && isOnGround())
+			{
+				spacePressed = true;
+				velocity.y = 4.0;	// TODO: MN
+			}
+		}
+		else
+			velocity.y = 6.0;	// TODO: MN
+	}
+	else
+	{
+		spacePressed = false;
+		if (flyModeEnabled)
+			velocity.y = 0.0;
+	}
 
-	move(deltaPos);
+	if (!isOnGround() && !flyModeEnabled)
+		velocity.y -= acceleration * deltaTime;
+
+	move(velocity * deltaTime);
 
 	// Process cursor movement.
 
@@ -52,8 +83,15 @@ void Player::update()
 	// Prevent the sudden jump of view.
 	if (pitch > 89.9)
 		pitch = 89.9;
-	if (pitch < -89.9)
+	else if (pitch < -89.9)
 		pitch = -89.9;
+	
+	if (yaw > 360.0)
+		yaw -= 360.0;
+	else if (yaw < 0.0)
+		yaw += 360.0;
+
+	//printf("vy: %lf\n", velocity.y);
 
 	adjustFront();
 }
@@ -103,7 +141,7 @@ void Player::move(const glm::dvec3 & deltaPos)
 			shift.z = shiftZ;
 		}
 	}
-
+	
 	position += shift;
 
 	glm::dvec3 shiftLeft = deltaPos - shift;
@@ -128,4 +166,17 @@ void Player::move(const glm::dvec3 & deltaPos)
 	}
 
 	position += shiftLeftFinal;
+
+	if (deltaPos.y < 0.0 && shift.y + shiftLeftFinal.y == 0.0)
+		velocity.y = 0.0;
+}
+
+bool Player::isOnGround() const
+{
+	AABB hitbox = getHitbox();
+	for (double x = floor(hitbox.xmin); x <= floor(hitbox.xmax); x += 1.0)
+		for (double z = floor(hitbox.zmin); z <= floor(hitbox.zmax); z += 1.0)
+			if (world->hasBlock((long)x, (long)ceil(position.y) - 1L, (long)z))
+				return true;
+	return false;
 }

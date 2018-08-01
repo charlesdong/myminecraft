@@ -52,7 +52,7 @@ void Game::init()
 	selFrame.init(&player, &bidRenderer, &world);
 	bidRenderer.init();
 	textRenderer.init(&bidRenderer);
-	debugScreen.init(&player, &textRenderer);
+	debugScreen.init(&player, &selFrame, &textRenderer);
 	player.init(&world);
 
 	fps = 0;

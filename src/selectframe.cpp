@@ -1,6 +1,7 @@
 #include "selectframe.h"
 #include "texturemanager.h"
 #include "game.h"
+#include "aabb.h"
 #include <iostream>
 
 SelectFrame::SelectFrame()
@@ -11,10 +12,9 @@ SelectFrame::SelectFrame()
 void SelectFrame::init(const Player * pPlayer, BidimensionalRenderer * pBidRenderer, World * pWorld)
 {
 	player = pPlayer;
-	//cubeRenderer = pCubeRenderer;
 	bidRenderer = pBidRenderer;
 	world = pWorld;
-	selPrecision = 0.05;
+	selPrecision = 0.025;
 	selDistance = 4.0;
 
 	indexTexCursor = TextureManager::load("gui/cursor.png");
@@ -41,7 +41,8 @@ void SelectFrame::update()
 		{
 			if (!buttonRight)
 			{
-				world->setBlock(selBlockAdj.x, selBlockAdj.y, selBlockAdj.z);
+				if (!collide(player->getHitbox(), AABB((double)selBlockAdj.x, (double)selBlockAdj.x + 1.0, (double)selBlockAdj.y, (double)selBlockAdj.y + 1.0, (double)selBlockAdj.z, (double)selBlockAdj.z + 1.0)))
+					world->setBlock(selBlockAdj.x, selBlockAdj.y, selBlockAdj.z);
 				buttonRight = true;
 			}
 		}
@@ -103,13 +104,6 @@ void SelectFrame::select()
 
 void SelectFrame::render()
 {
-	/*
-	pCubeRenderer->beginRender(selBlock.x, selBlock.y, selBlock.z, *pCamera);
-	pCubeRenderer->setAuxColor(glm::vec3(1.0f, 1.0f, 1.0f));
-	TextureManager::get(indexTexFrame).bind();
-	for (int i = 0; i < 6; i++)
-		pCubeRenderer->render(i);
-	*/
 	TextureManager::get(indexTexCursor).bind();
 	bidRenderer->render(glm::ivec2(400, 300), glm::ivec2(32, 32));
 }

@@ -9,9 +9,10 @@ DebugScreen::DebugScreen()
 	isShown = true;		// DEBUGGING
 }
 
-void DebugScreen::init(const Player * pPlayer, TextRenderer * pTextRenderer)
+void DebugScreen::init(const Player * pPlayer, const SelectFrame * pSelFrame, TextRenderer * pTextRenderer)
 {
 	player = pPlayer;
+	selFrame = pSelFrame;
 	textRenderer = pTextRenderer;
 }
 
@@ -36,19 +37,36 @@ void DebugScreen::render()
 		return;
 
 	glm::dvec3 position = player->getPosition();
+	glm::dvec3 velocity = player->getVelocity();
+	glm::ivec3 selBlock = selFrame->getSelBlock();
+	glm::ivec3 selBlockAdj = selFrame->getSelBlockAdj();
 
-	char buffer[100];
+	char buffer[200];
 	sprintf_s(
 		buffer,
 		"MyMinecraft 0.3\n"
 		"FPS: %d\n"
 		"X: %.3lf\n"
 		"Y: %.3lf\n"
-		"Z: %.3lf\n",
+		"Z: %.3lf\n"
+		"VelocityX: %.3lf\n"
+		"VelocityY: %.3lf\n"
+		"VelocityZ: %.3lf\n"
+		"Pitch: %.1lf\n"
+		"Yaw: %.1lf\n"
+		"Selected block: %d %d %d\n"
+		"Adjacent block: %d %d %d",
 		pGame->getFps(),
 		position.x,
 		position.y,
-		position.z
+		position.z,
+		velocity.x,
+		velocity.y,
+		velocity.z,
+		player->getPitch(),
+		player->getYaw(),
+		selBlock.x, selBlock.y, selBlock.z,
+		selBlockAdj.x, selBlockAdj.y, selBlockAdj.z
 	);
 	textRenderer->render(buffer);
 }

@@ -18,7 +18,12 @@ private:
 	double yaw;
 
 	// player's velocity in scalar
-	double velocity;
+
+	double speed;
+	double acceleration;
+	glm::dvec3 velocity;
+
+	bool flyModeEnabled;
 
 	World * world;
 
@@ -33,6 +38,9 @@ public:
 	glm::dvec3 getEyePosition() const { return position + glm::dvec3(0.0, 1.6, 0.0); }	// TODO: MagNum
 	glm::dvec3 getFrontInScene() const { return frontInScene; }
 	glm::dvec3 getUp() const { return up; }
+	glm::dvec3 getVelocity() const { return velocity; }
+	double getPitch() const { return pitch; }
+	double getYaw() const { return yaw; }
 	AABB getHitbox() const
 	{
 		return AABB(
@@ -44,6 +52,7 @@ public:
 			position.z + 0.3
 		);
 	}
+	bool isOnGround() const;
 };
 
 #endif
