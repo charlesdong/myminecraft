@@ -102,7 +102,7 @@ void SelectFrame::select()
 	selBlockAdj.z = -1;
 }
 
-void SelectFrame::render()
+void SelectFrame::render() const
 {
 	TextureManager::get(indexTexCursor).bind();
 	bidRenderer->render(glm::ivec2(400, 300), glm::ivec2(32, 32));

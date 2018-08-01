@@ -26,7 +26,7 @@ void World::init(RenderBlock * pRenderBlock)
 	renderBlock = pRenderBlock;
 }
 
-void World::render(const glm::dvec3 & eyePosition, const glm::dvec3 & frontInScene, const glm::dvec3 & up)
+void World::render(const glm::dvec3 & eyePosition, const glm::dvec3 & frontInScene, const glm::dvec3 & up) const
 {
 	for (int i = 0; i < WORLD_X; i++)
 		for (int j = 0; j < WORLD_Y; j++)
@@ -100,7 +100,7 @@ void World::setBlock(long x, long y, long z)
 	}
 }
 
-std::vector<AABB> World::getHitboxes(const AABB & box)
+std::vector<AABB> World::getHitboxes(const AABB & box) const
 {
 	std::vector<AABB> hitboxes;
 	// NOTE: The range of every component should be floor(min)~floor(max),

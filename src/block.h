@@ -5,7 +5,7 @@ class Block
 {
 private:
 	// currently only a place holder
-	virtual void temp() { }
+	virtual void temp() const { }
 public:
 	;
 };

@@ -23,8 +23,17 @@ public:
 
 	void init(CubeRenderer * pRenderer);
 
-	void beginRender(long x, long y, long z, const Block * b, const glm::dvec3 & eyePosition, const glm::dvec3 & frontInScene, const glm::dvec3 & up);
-	void render(int face);
+	void beginRender(
+		long x,
+		long y,
+		long z,
+		const Block * b,
+		const glm::dvec3 & eyePosition,
+		const glm::dvec3 & frontInScene,
+		const glm::dvec3 & up
+	);
+
+	void render(int face) const;
 
 	void clear();
 };

@@ -22,7 +22,7 @@ public:
 		const float tymin = 0.0f,
 		const float tymax = 1.0f,
 		bool centralized = true
-	);
+	) const;
 	void clear();
 };
 

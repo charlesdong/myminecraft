@@ -20,9 +20,16 @@ private:
 public:
 	CubeRenderer();
 	void init();
-	void beginRender(long x, long y, long z, const glm::dvec3 & eyePosition, const glm::dvec3 & frontInScene, const glm::dvec3 & up);
+	void beginRender(
+		long x,
+		long y,
+		long z,
+		const glm::dvec3 & eyePosition,
+		const glm::dvec3 & frontInScene,
+		const glm::dvec3 & up
+	) const;
 
-	void setAuxColor(const glm::vec3 & color)
+	void setAuxColor(const glm::vec3 & color) const
 	{
 		prog.setVec3f("color_aux", color);
 	}

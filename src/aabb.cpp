@@ -1,6 +1,6 @@
 #include "aabb.h"
 
-AABB AABB::expand(const glm::dvec3 & offset)
+AABB AABB::expand(const glm::dvec3 & offset) const
 {
 	AABB result(*this);
 	if (offset.x >= 0.0)

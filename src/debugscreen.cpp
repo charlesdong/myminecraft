@@ -1,12 +1,12 @@
 #include "debugscreen.h"
 #include "game.h"
-// sorry, I would prefer to use C++ tools rather than C ones,
-// but the format string is really convenient
+// Sorry, I would prefer to use C++ tools rather than C ones,
+// but the format string is really convenient.
 #include <cstdio>
 
 DebugScreen::DebugScreen()
 {
-	isShown = true;		// DEBUGGING
+	isShown = false;
 }
 
 void DebugScreen::init(const Player * pPlayer, const SelectFrame * pSelFrame, TextRenderer * pTextRenderer)
@@ -18,20 +18,20 @@ void DebugScreen::init(const Player * pPlayer, const SelectFrame * pSelFrame, Te
 
 void DebugScreen::update()
 {
-	static bool pressF2 = false;
-	if (pGame->isKeyDown(GLFW_KEY_F2))
+	static bool pressF3 = false;
+	if (pGame->isKeyDown(GLFW_KEY_F3))
 	{
-		if (!pressF2)
+		if (!pressF3)
 		{
-			//isShown = !isShown;
-			pressF2 = true;
+			isShown = !isShown;
+			pressF3 = true;
 		}
 	}
 	else
-		pressF2 = false;
+		pressF3 = false;
 }
 
-void DebugScreen::render()
+void DebugScreen::render() const
 {
 	if (!isShown)
 		return;

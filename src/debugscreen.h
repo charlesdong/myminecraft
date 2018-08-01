@@ -16,7 +16,7 @@ public:
 	DebugScreen();
 	void init(const Player * pCam, const SelectFrame * pSelFrame, TextRenderer * pTexRenderer);
 	void update();
-	void render();
+	void render() const;
 };
 
 #endif

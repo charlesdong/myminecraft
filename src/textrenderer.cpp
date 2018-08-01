@@ -11,7 +11,7 @@ void TextRenderer::init(BidimensionalRenderer * pBidRenderer)
 	idTexUnicode00 = TextureManager::load("font/unicode_page_00.png");
 }
 
-void TextRenderer::render(const char * text)
+void TextRenderer::render(const char * text) const
 {
 	TextureManager::get(idTexUnicode00).bind();
 	const int sizeX = 6;

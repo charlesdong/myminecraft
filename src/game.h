@@ -38,7 +38,7 @@ private:
 	void clear();
 
 	void update();
-	void render();
+	void render() const;
 
 	static Game * game;
 public:

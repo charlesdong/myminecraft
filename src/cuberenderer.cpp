@@ -6,9 +6,6 @@
 #include "blockmanager.h"
 #include "texturemanager.h"
 
-#include <iostream>
-using std::cout;
-
 CubeRenderer::CubeRenderer()
 {
 }
@@ -90,12 +87,18 @@ void CubeRenderer::initCubeRendering()
 	glBindVertexArray(0);
 }
 
-void CubeRenderer::beginRender(long x, long y, long z, const glm::dvec3 & eyePosition, const glm::dvec3 & frontInScene, const glm::dvec3 & up)
+void CubeRenderer::beginRender(
+	long x,
+	long y,
+	long z,
+	const glm::dvec3 & eyePosition,
+	const glm::dvec3 & frontInScene,
+	const glm::dvec3 & up
+) const
 {
 	// Calculate the model-view-projection matrix.
 	glm::mat4 model;
 	model = glm::translate(model, glm::vec3(float(x), float(y), float(z)));
-	//std::cout << player << std::endl;
 	glm::mat4 view = glm::lookAt(
 		eyePosition,
 		eyePosition + frontInScene,

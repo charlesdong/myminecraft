@@ -18,7 +18,7 @@ public:
 	AABB(double x1, double x2, double y1, double y2, double z1, double z2) :
 		xmin(x1), xmax(x2), ymin(y1), ymax(y2), zmin(z1), zmax(z2) { }
 
-	AABB expand(const glm::dvec3 & offset);
+	AABB expand(const glm::dvec3 & offset) const;
 };
 
 // Determine if two AABBs collide on the X axis.

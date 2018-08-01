@@ -11,7 +11,7 @@ private:
 public:
 	TextRenderer();
 	void init(BidimensionalRenderer * pBidRenderer);
-	void render(const char * text);
+	void render(const char * text) const;
 };
 
 #endif

@@ -54,7 +54,7 @@ void BidimensionalRenderer::render(
 	const float tymin,
 	const float tymax,
 	bool centralized
-)
+) const
 {
 	glm::vec3 posLeftBottom((float)position.x, (float)position.y, 0.0f);
 	if (!centralized)

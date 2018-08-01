@@ -12,7 +12,6 @@ class SelectFrame
 private:
 	// pointers
 	const Player * player;
-	//CubeRenderer * cubeRenderer;
 	BidimensionalRenderer * bidRenderer;
 	World * world;
 
@@ -37,7 +36,7 @@ public:
 	SelectFrame();
 	void init(const Player * pPlayer, BidimensionalRenderer * pBidRenderer, World * pWorld);
 	void update();
-	void render();
+	void render() const;
 	const glm::ivec3 & getSelBlock() const { return selBlock; }
 	const glm::ivec3 & getSelBlockAdj() const { return selBlockAdj; }
 };

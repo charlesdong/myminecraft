@@ -21,7 +21,7 @@ private:
 public:
 	World();
 	void init(RenderBlock * pRenderBlock);
-	void render(const glm::dvec3 & eyePosition, const glm::dvec3 & frontInScene, const glm::dvec3 & up);
+	void render(const glm::dvec3 & eyePosition, const glm::dvec3 & frontInScene, const glm::dvec3 & up) const;
 	void clear();
 
 	bool inRange(long x, long y, long z) const;
@@ -30,7 +30,7 @@ public:
 	const Block * getBlockPtr(long x, long y, long z) const;
 	void destroyBlock(long x, long y, long z);
 	void setBlock(long x, long y, long z);
-	std::vector<AABB> getHitboxes(const AABB & box);
+	std::vector<AABB> getHitboxes(const AABB & box) const;
 };
 
 #endif
