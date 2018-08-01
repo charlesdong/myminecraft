@@ -1,13 +1,12 @@
 #include "texture.h"
 
-#include <iostream>
-using std::cout;
-using std::endl;
-
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
 #include <GL/glew.h>
+
+#include <cstdio>
+#include "game.h"
 
 Texture::Texture()
 {
@@ -26,8 +25,12 @@ void Texture::load(const char * path)
 	int width, height;
 	stbi_set_flip_vertically_on_load(true);		// flip the texture vertically
 	unsigned char * image = stbi_load(path, &width, &height, nullptr, 4);
-	if (image == nullptr)
-		cout << "Failed to load image from file " << path << " (maybe not exist)!\n";
+	if (!image)
+	{
+		char log[256];
+		sprintf_s(log, "Failed to load image from file %s (maybe doesn't exist)", path);
+		pGame->getLogger().log(ERROR, log);
+	}
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	stbi_image_free(image);

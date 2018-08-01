@@ -1,11 +1,9 @@
 #include "program.h"
 #include <GL/glew.h>
-#include <iostream>
 #include <fstream>
-using std::cout;
-using std::endl;
-using std::ifstream;
-using std::ios_base;
+#include <cstdio>
+#include <cassert>
+#include "game.h"
 
 const GLenum PROGRAM = 0;
 
@@ -30,9 +28,12 @@ unsigned int Program::makeShader(const char * code, GLenum type) const
 	glCompileShader(shader);
 	if (!checkErrors(shader, type))
 	{
-		const char * log = getInfoLog(shader, type);
-		cout << "ERROR: Shader compilation failed, type: " << getTypeName(type) << ", info log:\n" << log << endl;
-		delete[] log;
+		const char * infoLog = getInfoLog(shader, type);
+		// TODO: Calculate the size of 'log'.
+		char log[1024];
+		sprintf_s(log, "Shader compilation failed, type: %s, info log:\n%s", getTypeName(type), log);
+		pGame->getLogger().log(FATAL, log);
+		delete[] infoLog;
 	}
 	return shader;
 }
@@ -45,18 +46,27 @@ void Program::makeProgram(unsigned int vShader, unsigned int fShader)
 	glLinkProgram(prog);
 	if (!checkErrors(prog, PROGRAM))
 	{
-		const char * log = getInfoLog(prog, PROGRAM);
-		cout << "ERROR: Program linking failed, info log:\n" << log << endl;
-		delete[] log;
+		const char * infoLog = getInfoLog(prog, PROGRAM);
+		// TODO: Calculate the size of 'log'
+		char log[1024];
+		sprintf_s(log, "Program linking failed, info log:\n%s", infoLog);
+		pGame->getLogger().log(FATAL, log);
+		delete[] infoLog;
 	}
 }
 
 const char * Program::readFile(const char * path) const
 {
+	using std::ifstream;
+	using std::ios_base;
 	ifstream fin;
 	fin.open(path);
 	if (!fin.is_open())
-		cout << "ERROR: Unable to open shader file " << path << " (maybe not exist)\n";
+	{
+		char log[256];
+		sprintf_s(log, "Unable to open shader file %s (maybe not exist)", path);
+		pGame->getLogger().log(ERROR, log);
+	}
 	int size;
 	fin.seekg(0, ios_base::end);
 	size = (int)fin.tellg();		// returns a std::streamoff value, convert to int
@@ -111,6 +121,7 @@ const char * Program::getTypeName(GLenum type) const
 	case GL_FRAGMENT_SHADER:
 		return "FRAGMENT";
 	default:
+		assert("Invalid shader type name" && false);
 		return "UNKNOWN";
 	}
 }

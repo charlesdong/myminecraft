@@ -29,6 +29,8 @@ short RenderBlock::getBlockType(const Block * b) const
 		return idStone;
 	if (typeid(*b) == typeid(BlockBedrock))
 		return idBedrock;
+	assert("Invalid block pointer" && false);
+	return 0;
 }
 
 void RenderBlock::beginRender(

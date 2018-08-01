@@ -11,6 +11,7 @@
 #include "textrenderer.h"
 #include "debugscreen.h"
 #include "player.h"
+#include "logger.h"
 
 #define pGame (Game::getPointer())
 
@@ -26,6 +27,7 @@ private:
 	TextRenderer textRenderer;
 	DebugScreen debugScreen;
 	Player player;
+	Logger logger;
 
 	static const char * version;
 
@@ -65,6 +67,11 @@ public:
 	double getDeltaTime() const
 	{
 		return deltaTime;
+	}
+
+	Logger & getLogger()
+	{
+		return logger;
 	}
 
 	static Game * getPointer()

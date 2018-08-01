@@ -1,9 +1,9 @@
 #include "game.h"
-#include <iostream>
-using std::cout;
+#include <cstdlib>
+#include <cstdio>
 
 Game * Game::game = nullptr;
-const char * Game::version = "0.3";
+const char * Game::version = "0.4";
 
 Game::Game()
 {
@@ -20,8 +20,13 @@ void Game::run()
 
 void Game::init()
 {
+	double timeStart = glfwGetTime();
+
 	if (!glfwInit())
-		cout << "Failed to init GLFW!\n";
+	{
+		logger.log(FATAL, "Failed to init GLFW!");
+		exit(EXIT_FAILURE);
+	}
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -29,15 +34,22 @@ void Game::init()
 
 	// TODO: magic number "800" and "600"
 	window = glfwCreateWindow(800, 600, "MyMinecraft 0.3", nullptr, nullptr);
-	if (window == nullptr)
-		cout << "Failed to create window using GLFW!\n";
+	if (!window)
+	{
+		logger.log(FATAL, "Failed to create window using GLFW!");
+		exit(EXIT_FAILURE);
+	}
+
 	glfwMakeContextCurrent(window);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
-		cout << "Failed to init GLEW!\n";
+	{
+		logger.log(FATAL, "Failed to init GLEW!");
+		exit(EXIT_FAILURE);
+	}
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
@@ -55,6 +67,11 @@ void Game::init()
 	player.init(&world);
 
 	fps = 0;
+
+	double timeEnd = glfwGetTime();
+	char logInfo[64];
+	sprintf_s(logInfo, "Game initialized successfully, time used: %d ms", (int)((timeEnd - timeStart) * 1000.0));
+	logger.log(INFO, logInfo);
 }
 
 void Game::loop()
