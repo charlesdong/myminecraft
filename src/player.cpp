@@ -1,7 +1,6 @@
 #include "player.h"
 #include "game.h"
 #include <glm/glm.hpp>
-#include <cstdio>
 
 Player::Player() : position(0.5, 5.0, 0.5), frontInScene(0.0, 0.0, 1.0), front(0.0, 0.0, 1.0), up(0.0, 1.0, 0.0), pitch(0.0), yaw(90.0), velocity(0.0, 0.0, 0.0), speed(3.0), acceleration(8.0), flyModeEnabled(false)
 {
@@ -90,8 +89,6 @@ void Player::update()
 		yaw -= 360.0;
 	else if (yaw < 0.0)
 		yaw += 360.0;
-
-	//printf("vy: %lf\n", velocity.y);
 
 	adjustFront();
 }

@@ -1,5 +1,4 @@
 #include "blockmanager.h"
-#include <cstring>
 #include "texturemanager.h"
 
 BlockManager::BlockManager()

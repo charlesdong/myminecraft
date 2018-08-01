@@ -1,5 +1,4 @@
 #include "world.h"
-#include <iostream>
 #include <glm/glm.hpp>
 
 World::World()

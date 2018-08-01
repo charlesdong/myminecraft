@@ -1,6 +1,5 @@
 #include "game.h"
 #include <iostream>
-#include <cstdio>
 using std::cout;
 
 Game * Game::game = nullptr;

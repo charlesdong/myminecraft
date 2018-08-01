@@ -2,7 +2,6 @@
 #include "texturemanager.h"
 #include "game.h"
 #include "aabb.h"
-#include <iostream>
 
 SelectFrame::SelectFrame()
 {
